@@ -1,5 +1,5 @@
 """
-Configuración base de Django para Huellitas
+Configuración base de Django para Huellitas - CON CLOUDINARY
 """
 import os
 from pathlib import Path
@@ -30,6 +30,8 @@ THIRD_PARTY_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'django_filters',
+    'cloudinary_storage',  
+    'cloudinary',
 ]
 
 LOCAL_APPS = [
@@ -91,21 +93,34 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'es-gt'  # Español de Guatemala
+LANGUAGE_CODE = 'es-gt'
 TIME_ZONE = 'America/Guatemala'
 USE_I18N = True
 USE_TZ = False
 
-# Static files (CSS, JavaScript, Images)
+
+# Configuracion de CLOUDINARY para almacenamiento de medios
+
+# IMPORTANTE: Reemplaza estos valores con los tuyos de cloudinary.com/console
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dng9jb0ib',
+    'API_KEY': '127451234983349',
+    'API_SECRET': 'deBNiSLhfRQr1wG6Bmt5EKWfwR8',
+}
+
+# Media files (uploads) - AHORA EN CLOUDINARY
+MEDIA_URL = '/media/'  # Cloudinary maneja la URL completa
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Static files (CSS, JavaScript, Images) - LOCAL para desarrollo
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# Media files (uploads)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Para producción subir statics a Cloudinary:
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -117,7 +132,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Por defecto público, cada view define su permiso
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
@@ -133,19 +148,18 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
 }
 
-# CORS Settings (para desarrollo)
+# CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://localhost:5173",  # ← Vite usa este puerto
+    "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
 ]
 
 AUTH_USER_MODEL = 'authentication.AdminUser'
 
-
-# Email Configuration (para desarrollo)
+# Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Configuración para archivos de imagen
@@ -185,7 +199,7 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'apps': {  # Para nuestras apps
+        'apps': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
