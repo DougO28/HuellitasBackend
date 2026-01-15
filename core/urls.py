@@ -2,16 +2,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings               
 from django.conf.urls.static import static
-from apps.common.api_root import api_root
+from django.shortcuts import redirect  # ← Agregar esto
+
+# Función para redirigir al admin
+def redirect_to_admin(request):
+    return redirect('/admin/')
 
 urlpatterns = [
-    # Página de inicio de la API
-    path('', api_root, name='api-root'),
+    # Redirige la raíz al admin
+    path('', redirect_to_admin, name='home'),  # ← Cambiar esto
     
-    # Django Admin (opcional, para desarrollo)
+    # Django Admin
     path('admin/', admin.site.urls),
     
-    # API Routes - Panel de Administración
+    # API Routes
     path('api/auth/', include('apps.authentication.urls')),
     path('api/', include('apps.pets.urls')),
     path('api/adoptions/', include('apps.adoptions.urls')),
@@ -20,7 +24,6 @@ urlpatterns = [
     path('api/', include('apps.common.urls')),
 ]
 
-# Servir archivos de media y static en desarrollo
+# Solo para archivos estáticos en desarrollo
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
