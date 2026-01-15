@@ -4,48 +4,99 @@ Configuración de producción para Huellitas
 import os
 from .base import *
 
-# Debug desactivado en producción
+# Debug DEBE estar en False en producción
 DEBUG = False
 
-# Hosts permitidos en producción (configurar según tu dominio)
-ALLOWED_HOSTS = ['tu-dominio.com', 'www.tu-dominio.com']
+# Hosts permitidos - Agrega  dominio de Render
+ALLOWED_HOSTS = [
+    'tu-app.onrender.com',  # ← Cambiar esto por URL de Render
+    
+]
 
-# Base de datos para producción
+# Seguridad
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+
+SECURE_HSTS_SECONDS = 31536000  # 1 año
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Base de datos MySQL en Aiven
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'huellitas_prod'),
-        'USER': os.environ.get('DB_USER', 'huellitas_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+        'NAME': os.getenv('DB_NAME', 'defaultdb'),
+        'USER': os.getenv('DB_USER', 'avnadmin'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),  # mysql
+        'PORT': os.getenv('DB_PORT', '27999'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
+            'ssl_mode': 'REQUIRED',  # SSL Para Aiven
+            'ssl': {
+                'ca': os.getenv('DB_SSL_CA', '/etc/ssl/certs/ca-certificates.crt'),
+            }
         },
     }
 }
 
-# Seguridad
-SECRET_KEY = os.environ.get('SECRET_KEY', 'change-this-in-production')
+# Cloudinary 
+# Las variables de entorno deben estar en Render
 
-# Configuración de archivos estáticos para producción
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Email para producción
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-
-# CORS más restrictivo en producción
+# CORS - Restringe al frontend de Netlify
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "https://tu-frontend.com",
+    'https://tu-app.netlify.app',  # ← Cambiar esto por URL de Netlify
+    
 ]
 
+# WhiteNoise para servir archivos estáticos
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Email en producción (configura según tu proveedor)
+# Ejemplo con SendGrid:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'apikey'
+# EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')
+# DEFAULT_FROM_EMAIL = 'noreply@huellitas.com'
+
 # Logging para producción
-LOGGING['handlers']['file']['filename'] = '/var/log/huellitas/huellitas.log'
-LOGGING['loggers']['django']['level'] = 'WARNING'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'apps': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
