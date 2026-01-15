@@ -28,6 +28,7 @@ DATABASES = {
 # Email para desarrollo (aparece en consola)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
 # CORS más permisivo en desarrollo
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -39,7 +40,8 @@ INTERNAL_IPS = [
 
 # Django Extensions si se instala
 try:
-    import django_extensions
+    import importlib
+    importlib.import_module('django_extensions')
     INSTALLED_APPS += ['django_extensions']
 except ImportError:
     pass
