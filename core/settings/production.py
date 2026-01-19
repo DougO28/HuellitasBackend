@@ -52,12 +52,11 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
-            'ssl': {
-                'ca': os.getenv('DB_SSL_CA', '/etc/secrets/ca.pem'),
+
             }
         },
     }
-}
+
 
 
 # Cloudinary ya está configurado en base.py
@@ -96,6 +95,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Static files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = []  # Vacío en producción
+WHITENOISE_USE_FINDERS = False
+WHITENOISE_MANIFEST_STRICT = False  # No fallar si falta algún archivo
 
 # Logging mejorado para producción
 LOGGING = {
