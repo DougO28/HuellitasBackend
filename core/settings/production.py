@@ -2,7 +2,12 @@
 Configuración de producción para Huellitas
 """
 import os
+from pathlib import Path
 from .base import *
+
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # Debug DEBE estar en False en producción
 DEBUG = False
