@@ -44,22 +44,21 @@ if not DEBUG:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'defaultdb'),
-        'USER': os.getenv('DB_USER', 'avnadmin'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'mysql-11e1078c-proyectohuellitas01.c.aivencloud.com'),
-        'PORT': os.getenv('DB_PORT', '27999'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
-            'ssl_mode': 'REQUIRED',
             'ssl': {
                 'ca': os.getenv('DB_SSL_CA', '/etc/secrets/ca.pem'),
-
             }
         },
     }
 }
+
 
 # Cloudinary ya está configurado en base.py
 # Solo asegúrar de que las variables de entorno estén en Render
