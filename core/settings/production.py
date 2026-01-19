@@ -54,7 +54,8 @@ DATABASES = {
             'charset': 'utf8mb4',
             'ssl_mode': 'REQUIRED',
             'ssl': {
-                'ca': os.getenv('DB_SSL_CA', '/etc/ssl/certs/ca-certificates.crt'),
+                'ca': os.getenv('DB_SSL_CA', '/etc/secrets/ca.pem'),
+
             }
         },
     }
