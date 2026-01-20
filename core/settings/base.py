@@ -13,7 +13,10 @@ SECRET_KEY = 'django-insecure-huellitas-change-this-in-production-2024'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1',
+     'huellitasadmin.onrender.com',
+    ]
 
 # Application definition
 DJANGO_APPS = [

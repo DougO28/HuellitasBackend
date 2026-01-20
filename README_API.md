@@ -2,7 +2,7 @@
 
 Documentación completa de la API REST del sistema de gestión del Refugio Huellitas.
 
-**Base URL:** `http://localhost:8000/api/`
+**Base URL:** `https://huellitasadmin.onrender.com`
 
 ---
 
@@ -295,6 +295,7 @@ POST /api/content/success-stories/
 ### Enviar mensaje de contacto
 ```http
 POST /api/contact/messages/
+
 ```
 
 **Body:**
