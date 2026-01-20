@@ -59,10 +59,10 @@ DATABASES = {
 
 
 
-# Cloudinary ya está configurado en base.py
-# Solo asegúrar de que las variables de entorno estén en Render
+# Cloudinary ya se configuro en base.py
 
-# CORS - Configuración permisiva inicialmente, luego restringir
+
+# CORS - Configuración permisiva inicialmente
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -154,6 +154,6 @@ CSRF_TRUSTED_ORIGINS = []
 if os.getenv('CSRF_TRUSTED_ORIGINS'):
     CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 else:
-    # Agregar automáticamente el dominio de Render si existe
+    # Agregar automáticamente el dominio de Render
     if os.getenv('RENDER_EXTERNAL_URL'):
         CSRF_TRUSTED_ORIGINS = [os.getenv('RENDER_EXTERNAL_URL')]
