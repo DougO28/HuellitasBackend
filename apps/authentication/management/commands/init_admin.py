@@ -21,7 +21,7 @@ class Command(BaseCommand):
         # Obtener credenciales desde variables de entorno o usar valores por defecto
         username = os.getenv('DJANGO_SUPERUSER_USERNAME', 'admin')
         email = os.getenv('DJANGO_SUPERUSER_EMAIL', 'admin@huellitas.com')
-        password = os.getenv('DJANGO_SUPERUSER_PASSWORD', 'admin123')  # Cambiar en producción
+        password = os.getenv('DJANGO_SUPERUSER_PASSWORD', 'Huellitasadmin') 
 
         try:
             user = User.objects.create_superuser(
