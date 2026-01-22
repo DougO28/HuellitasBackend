@@ -10,7 +10,7 @@ def redirect_to_admin(request):
 
 urlpatterns = [
     # Redirige la raíz al admin
-    path('', redirect_to_admin, name='home'),  # Cambiar cuando este en produccion
+    path('', redirect_to_admin, name='home'),  # Cambiar en produccion
     
     # Django Admin
     path('admin/', admin.site.urls),
