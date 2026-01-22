@@ -10,7 +10,7 @@ def redirect_to_admin(request):
 
 urlpatterns = [
     # Redirige la raíz al admin
-    path('', redirect_to_admin, name='home'),  # ← Cambiar esto
+    path('', redirect_to_admin, name='home'),  # Cambiar cuando este en produccion
     
     # Django Admin
     path('admin/', admin.site.urls),
@@ -24,6 +24,6 @@ urlpatterns = [
     path('api/', include('apps.common.urls')),
 ]
 
-# Solo para archivos estáticos en desarrollo
+# Solo para archivos estaticos
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
