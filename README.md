@@ -605,7 +605,7 @@ VITE_API_URL=https://tu-backend.onrender.com/api
 ## Autor
 
 Douglas Ortega  
-Desarrollador Full Stack  
+Desarrollador
 
 Contacto: douguiortega@gmail.com
 
