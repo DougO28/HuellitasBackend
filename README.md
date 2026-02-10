@@ -238,7 +238,7 @@ cd backend
 
 # Activar entorno virtual
 source venv/bin/activate  # macOS/Linux
-# o
+### o
 venv\Scripts\activate  # Windows
 
 # Ejecutar servidor de desarrollo
@@ -255,7 +255,7 @@ cd frontend
 
 # Ejecutar servidor de desarrollo
 npm run dev
-# o
+
 yarn dev
 
 # El servidor estará disponible en:
@@ -273,9 +273,7 @@ gunicorn agriconecta.wsgi:application --bind 0.0.0.0:8000
 Frontend
 
 # Construir para producción
-npm run build
-# o
-yarn build
+npm run build o tambien yarn build
 
 # Los archivos optimizados estarán en la carpeta 'dist/'
 
