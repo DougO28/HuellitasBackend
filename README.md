@@ -330,8 +330,9 @@ agriconecta/
 
 
 
-### Arquitectura del Backend
+## Arquitectura del Backend
 
+```text
 ┌─────────────┐
 │   Cliente   │
 │  (Frontend) │
@@ -339,28 +340,26 @@ agriconecta/
        │ HTTP Request
        ▼
 ┌─────────────┐
-│    URLs     │  ← urls.py (Routing)
+│    URLs     │  → urls.py (Routing)
 └──────┬──────┘
-       │
        ▼
 ┌─────────────┐
-│    Views    │  ← Lógica de negocio
+│    Views    │  → Lógica de negocio
 └──────┬──────┘
-       │
        ▼
 ┌─────────────┐
-│ Serializers │  ← Validación y conversión
+│ Serializers │  → Validación y conversión de datos
 └──────┬──────┘
-       │
        ▼
 ┌─────────────┐
-│   Models    │  ← Interacción con BD
+│   Models    │  → ORM / acceso a base de datos
 └──────┬──────┘
-       │
        ▼
 ┌─────────────┐
-│  PostgreSQL │  ← Base de datos
+│ PostgreSQL  │  → Base de datos
 └─────────────┘
+```
+
 
 
 ### API Endpoints
