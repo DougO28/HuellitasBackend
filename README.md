@@ -279,82 +279,55 @@ yarn build
 
 # Los archivos optimizados estarán en la carpeta 'dist/'
 
-### Estructura del proyecto
+## Estructura del Proyecto
 
+```text
 agriconecta/
 │
-├── backend/                    # Backend Django
-│   ├── agriconecta/           # Configuración principal del proyecto
-│   │   ├── settings.py        # Configuración de Django
-│   │   ├── urls.py            # URLs principales
-│   │   └── wsgi.py            # WSGI config
+├── backend/
+│   ├── agriconecta/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
 │   │
-│   ├── api/                   # Aplicación API
-│   │   ├── models/            # Modelos de datos
-│   │   │   ├── usuario.py     # Modelo de Usuario
-│   │   │   ├── producto.py    # Modelo de Producto
-│   │   │   ├── pedido.py      # Modelo de Pedido
-│   │   │   └── ubicacion.py   # Modelos Departamento/Municipio
+│   ├── api/
+│   │   ├── models/
+│   │   │   ├── usuario.py
+│   │   │   ├── producto.py
+│   │   │   ├── pedido.py
+│   │   │   └── ubicacion.py
 │   │   │
-│   │   ├── serializers/       # Serializadores DRF
-│   │   │   ├── usuario_serializer.py
-│   │   │   ├── producto_serializer.py
-│   │   │   └── pedido_serializer.py
-│   │   │
-│   │   ├── views/             # Vistas/ViewSets
-│   │   │   ├── usuario_views.py
-│   │   │   ├── producto_views.py
-│   │   │   └── pedido_views.py
-│   │   │
-│   │   ├── migrations/        # Migraciones de BD
-│   │   └── urls.py            # URLs de la API
+│   │   ├── serializers/
+│   │   ├── views/
+│   │   ├── migrations/
+│   │   └── urls.py
 │   │
-│   ├── media/                 # Archivos subidos (imágenes)
-│   ├── fixtures/              # Datos iniciales
-│   ├── requirements.txt       # Dependencias Python
-│   └── manage.py              # CLI de Django
+│   ├── media/
+│   ├── fixtures/
+│   ├── requirements.txt
+│   └── manage.py
 │
-├── frontend/                  # Frontend React
-│   ├── public/               # Archivos públicos
+├── frontend/
+│   ├── public/
 │   ├── src/
-│   │   ├── api/              # Servicios API
-│   │   │   ├── axiosConfig.ts
-│   │   │   ├── authService.ts
-│   │   │   ├── productService.ts
-│   │   │   └── ubicacionService.ts
-│   │   │
-│   │   ├── components/       # Componentes reutilizables
-│   │   │   ├── Navbar.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── ProductCard.tsx
-│   │   │   └── LoadingSpinner.tsx
-│   │   │
-│   │   ├── context/          # Context API
-│   │   │   └── AuthContext.tsx
-│   │   │
-│   │   ├── pages/            # Páginas/Vistas
-│   │   │   ├── Home.tsx
-│   │   │   ├── Login.tsx
-│   │   │   ├── Register.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── ProductList.tsx
-│   │   │   └── ProductDetail.tsx
-│   │   │
-│   │   ├── styles/           # Estilos CSS
-│   │   ├── types.ts          # Tipos TypeScript
-│   │   ├── App.tsx           # Componente principal
-│   │   ├── App.css           # Estilos globales
-│   │   ├── main.tsx          # Punto de entrada
-│   │   └── index.css         # Estilos base
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   ├── styles/
+│   │   ├── App.tsx
+│   │   └── main.tsx
 │   │
-│   ├── .env                  # Variables de entorno
-│   ├── package.json          # Dependencias Node
-│   ├── tsconfig.json         # Config TypeScript
-│   └── vite.config.ts        # Config Vite
+│   ├── .env
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
 │
-├── .gitignore               # Archivos ignorados por Git
-├── README.md                # Este archivo
-└── LICENSE                  # Licencia del proyecto
+├── .gitignore
+├── README.md
+└── LICENSE
+```
+
 
 
 ### Arquitectura del Backend
