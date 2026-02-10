@@ -413,16 +413,19 @@ Categorías
 |--------|-----------|--------------|----------------|
 | GET | /categorias/ | Listar categorías | No |
 
-### Autenticación JWT
+## Autenticación JWT
 
-Se incluye token en el header de cada petición autenticada
+Las rutas protegidas requieren enviar el token JWT en el header `Authorization`.
 
-headers: {
-  'Authorization': 'Bearer tu_token_aqui'
-}
+Formato:
 
-### Ejemplo de una petición
+```http
+Authorization: Bearer <tu_token>
+```
 
+### Ejemplo con fetch (JavaScript)
+
+```javascript
 // Login
 const response = await fetch('http://localhost:8000/api/usuarios/login/', {
   method: 'POST',
@@ -438,7 +441,7 @@ const response = await fetch('http://localhost:8000/api/usuarios/login/', {
 const data = await response.json();
 const token = data.token;
 
-// Crear producto (con token)
+// Crear producto autenticado
 const producto = await fetch('http://localhost:8000/api/productos/', {
   method: 'POST',
   headers: {
@@ -454,86 +457,74 @@ const producto = await fetch('http://localhost:8000/api/productos/', {
     categoria: 1
   })
 });
+```
 
+---
 
-
-### Scripts Disponibles
+## Scripts Disponibles
 
 ### Backend
-# Ejecutar servidor de desarrollo
-python manage.py runserver
 
-# Crear migraciones
-python manage.py makemigrations
-
-# Aplicar migraciones
-python manage.py migrate
-
-# Crear superusuario
-python manage.py createsuperuser
-
-# Cargar datos iniciales
+```bash
+python manage.py runserver          # Servidor de desarrollo
+python manage.py makemigrations     # Crear migraciones
+python manage.py migrate            # Aplicar migraciones
+python manage.py createsuperuser    # Crear admin
 python manage.py loaddata fixtures/ubicaciones.json
+python manage.py test               # Ejecutar tests
+python manage.py collectstatic      # Archivos estáticos
+python manage.py shell              # Consola Django
+python manage.py show_urls          # Listar endpoints
+```
 
-# Ejecutar tests
+---
+
+## Testing Backend
+
+```bash
 python manage.py test
-
-# Recolectar archivos estáticos
-python manage.py collectstatic
-
-# Shell de Django
-python manage.py shell
-
-# Mostrar URLs disponibles
-python manage.py show_urls
-
-###Test Backend
-
-# Todos los tests
-python manage.py test
-
-# Tests de una app específica
 python manage.py test api
-
-# Tests específicos con verbosidad
 python manage.py test api.tests.test_models --verbosity=2
 
-# Con coverage
 coverage run --source='.' manage.py test
 coverage report
-coverage html  # Genera reporte HTML
+coverage html
+```
 
-###Frontend 
+---
 
-# Desarrollo
-npm run dev          # Ejecutar servidor de desarrollo
-npm run build        # Construir para producción
-npm run preview      # Preview de build de producción
-npm run lint         # Ejecutar linter
+## Frontend
 
-# Testing (si está configurado)
-npm run test         # Ejecutar tests
-npm run test:watch   # Tests en modo watch
+### Desarrollo
 
-###Frontend Testing
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
 
-# Instalar dependencias de testing
+### Testing
+
+```bash
 npm install --save-dev vitest @testing-library/react @testing-library/jest-dom
-
-# Ejecutar tests
 npm run test
+npm run test:watch
+```
 
-se debe actualizar settings.py
+---
 
+## Configuración para Producción (Django)
+
+Actualiza `settings.py` para usar variables de entorno:
+
+```python
 import os
-from pathlib import Path
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -544,69 +535,97 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
+```
 
-crear build.sh
+---
 
+## Script de Build (Render)
+
+Crea `build.sh`:
+
+```bash
 #!/usr/bin/env bash
-# exit on error
 set -o errexit
 
 pip install -r requirements.txt
-
 python manage.py collectstatic --no-input
 python manage.py migrate
+```
 
-Configurar en Render
+---
 
-Conecta tu repositorio de GitHub
-Build Command: ./build.sh
-Start Command: gunicorn agriconecta.wsgi:application
-Agrega variables de entorno en el dashboard
+## Despliegue
 
-Frontend - Netlify/Vercel
-Netlify
-bash# Instalar Netlify CLI
-npm install -g netlify-cli
+### Backend – Render
 
-# Deploy
-npm run build
-netlify deploy --prod --dir=dist
-Vercel
-bash# Instalar Vercel CLI
-npm install -g vercel
+Configuración:
 
-# Deploy
-vercel --prod
-Variables de Entorno en Producción
-Backend (Render):
+- Conectar repositorio GitHub
+- Build Command: `./build.sh`
+- Start Command: `gunicorn agriconecta.wsgi:application`
+- Configurar variables de entorno
 
+Variables necesarias:
+
+```
 SECRET_KEY
 DEBUG=False
 ALLOWED_HOSTS
-DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+DB_HOST
+DB_PORT
 CORS_ALLOWED_ORIGINS
+```
 
-Frontend (Netlify/Vercel):
+---
 
+### Frontend – Netlify
+
+```bash
+npm install -g netlify-cli
+npm run build
+netlify deploy --prod --dir=dist
+```
+
+### Frontend – Vercel
+
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+Variable:
+
+```
 VITE_API_URL=https://tu-backend.onrender.com/api
+```
 
+---
 
-###Autor
-Equipo de Desarrollo
-- Douglas Ortega - Desarrollador
+## Autor
 
-- Contacto> douguiortega@gmail.com
+Douglas Ortega  
+Desarrollador Full Stack  
 
-###Agradecimiento
-- A todas las personas que me confiaron e inspiraron este proyecto
-- Recursos Utilizados
-  - Django Documentation> https://docs.djangoproject.com/
-  - React Documentation> https://react.dev/
-  - MySQL Documentation> https://dev.mysql.com/doc/
+Contacto: douguiortega@gmail.com
 
+---
+
+## Agradecimientos
+
+- Agricultores guatemaltecos que inspiraron el proyecto
+- Comunidad de código abierto
+
+Documentación utilizada:
+
+- Django: https://docs.djangoproject.com/
+- React: https://react.dev/
+- PostgreSQL/MySQL: documentación oficial
+
+---
 
 <div align="center">
-Hecho con el corazon para los agricultores de Guatemala
-⬆ Volver arriba
+Proyecto desarrollado para impulsar el comercio agrícola local en Guatemala
 </div>
-
