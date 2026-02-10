@@ -620,7 +620,8 @@ Documentación utilizada:
 
 - Django: https://docs.djangoproject.com/
 - React: https://react.dev/
-- PostgreSQL/MySQL: documentación oficial
+- MySQL: [documentación oficial](https://dev.mysql.com/doc/)
+
 
 ---
 
